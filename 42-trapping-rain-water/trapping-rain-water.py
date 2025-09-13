@@ -9,12 +9,13 @@ class Solution:
         return total_sum
 
     def update_local_maxima(self, height, local_maxima, index):
-        if len(local_maxima) >= 2 and height[index] >= height[local_maxima[-1]]:
-            while len(local_maxima) >1 and height[index] >= height[local_maxima[-1]] and height[local_maxima[-2]] >= height[local_maxima[-1]]:
-                local_maxima.pop()
-            local_maxima.append(index)      
-        else:
-            local_maxima.append(index)
+        while len(local_maxima) >=2 and height[index] >= height[local_maxima[-1]] and height[local_maxima[-2]] >= height[local_maxima[-1]]:
+            local_maxima.pop()
+        local_maxima.append(index)  
+        # if len(local_maxima) >= 2 and height[index] >= height[local_maxima[-1]]:
+               
+        # else:
+        #     local_maxima.append(index)
 
     def find_local_maxima(self, height):
         local_maxima = []
@@ -24,8 +25,8 @@ class Solution:
             if height[index] >= height[index-1] and height[index] >= height[index+1]:
                 self.update_local_maxima(height, local_maxima, index)
 
-        if height[len(height)-1] >= height[len(height)-2]:
-            self.update_local_maxima(height, local_maxima, len(height)-1)
+        # if height[len(height)-1] > height[len(height)-2]:
+        self.update_local_maxima(height, local_maxima, len(height)-1)
         return local_maxima
 
     def trap(self, height: List[int]) -> int:
