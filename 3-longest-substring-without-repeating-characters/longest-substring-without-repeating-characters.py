@@ -7,7 +7,6 @@ class Solution:
         for index in range(0, len(s)):
             if s[index] in map and map[s[index]] >= starting_index:
                 starting_index = map[s[index]] + 1
-            print('starting_index: ', starting_index, ', index: ', index)
             map[s[index]] = index
             if (index - starting_index + 1) > max_length:
                 max_length = index - starting_index + 1
