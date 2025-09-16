@@ -1,4 +1,3 @@
-import sys
 
 class Solution:
     def find_min(self, map:dict) -> int:   
