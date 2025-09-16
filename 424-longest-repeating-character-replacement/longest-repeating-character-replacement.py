@@ -16,11 +16,12 @@ class Solution:
         return  total_count - map[key_wiyh_hightest_count]
 
     def characterReplacement(self, s: str, k: int) -> int:
-        max_count = 0
+        max_count = 1
         replaced = 0
         map = {}
         starting_index = 0
-        for index in range(0, len(s)):
+        map[s[0]] = 1
+        for index in range(1, len(s)):
             map[s[index]] = map.get(s[index], 0) + 1
             while self.find_min(map) > k:
                 map[s[starting_index]] = map.get(s[starting_index], 0) - 1
