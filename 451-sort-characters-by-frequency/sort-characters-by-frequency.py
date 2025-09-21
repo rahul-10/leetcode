@@ -7,8 +7,8 @@ class Solution:
         return -1 * (obj_1['frequency'] - obj_2['frequency'])
 
     def frequencySort(self, s: str) -> str:
-        if len(s) <=2:
-            return s
+        # if len(s) <=2:
+        #     return s
 
         map = {}
         for char in s:
