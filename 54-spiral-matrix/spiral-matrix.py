@@ -7,10 +7,10 @@ class Solution:
         diff = 1
         i = -1
         j = -1        
-        print('m/2: ', m/2)
+        
         while i < m/2:
             i = j = diff -1
-            print('i : ', i, ', j: ', j )
+
             # increase column
             is_itirated = False
             while j <= n-diff:
@@ -55,9 +55,11 @@ class Solution:
             while i > diff-1:
                 res.append(matrix[i][j])
                 i = i-1
+                is_itirated = True
             i = i+1
             diff = diff+1
-            print('i : ', i )
+            if not is_itirated:
+                break
         
         return res    
             
