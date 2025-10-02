@@ -15,6 +15,18 @@ class Solution:
         return self.reverseListUtil(temp, head)
         
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        return self.reverseListUtil(head, None) 
+        # return self.reverseListUtil(head, None) 
+        if not head or not head.next:
+            return head
+        
+        temp = head.next
+        curr = head
+
+        while temp:
+            curr.next = temp.next
+            temp.next = head
+            head = temp
+            temp = curr.next
+        return head
             
         
