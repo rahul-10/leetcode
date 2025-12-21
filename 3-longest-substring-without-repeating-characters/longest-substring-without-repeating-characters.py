@@ -1,16 +1,21 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        map = {}
-
-        starting_index=0
+        start_index = 0
+        hash_map = {}
         max_length = 0
-        for index in range(0, len(s)):
-            if s[index] in map and map[s[index]] >= starting_index:
-                starting_index = map[s[index]] + 1
-            map[s[index]] = index
-            if (index - starting_index + 1) > max_length:
-                max_length = index - starting_index + 1
+
+        for idx, val in enumerate(s):
+            hashed_val = hash_map.get(val, None)
+            if hashed_val is not None and hashed_val >= start_index :
+                start_index = hash_map.get(val) + 1
+            
+            hash_map[val] = idx
+            max_length = max (max_length, idx - start_index + 1)
 
         return max_length
+
+
+
+        
             
         
