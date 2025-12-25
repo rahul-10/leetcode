@@ -1,26 +1,22 @@
-from collections import deque
-
 class Solution:
     def isValid(self, s: str) -> bool:
-        stack = deque()
-        for char in s:
-            if char in ['(', '{', '[']:
-                stack.append(char)
+
+        stack = []
+
+        for idx, val in enumerate(s):
+            if val in ['(', '{', '[']:
+                stack.append(val)
                 continue
-
-            # if len(stack) == 0 or (char == ')' and stack[-1] != '(') or (char == '}' and stack[-1] != '{') or (char == ']' and stack[-1] != '['):
-            #     return False
-            
-            if len(stack) > 0 and ((char == ')' and stack[-1] == '(') or (char == '}' and stack[-1] == '{') or (char == ']' and stack[-1] == '[')):
-                stack.pop()
-            else:
+            if len(stack) == 0:
                 return False
-        
-        if len(stack) == 0:
-            return True
-        return False
+            prev_val = stack.pop()
+            if (val == ')' and prev_val == '(') or (val == '}' and prev_val == '{') or (val == ']' and prev_val == '['):
+                continue
+            
+            return False
 
-            
-            
+        return len(stack) == 0
+             
+
 
         
