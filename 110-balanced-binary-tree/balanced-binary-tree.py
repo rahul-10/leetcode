@@ -19,7 +19,7 @@ class Solution:
         if not is_right:
             return is_right, right
         
-        print('left: ', left, ', right: ', right)
+        # print('left: ', left, ', right: ', right)
 
         return abs(right-left) <= 1, 1 + max(left, right)
 
