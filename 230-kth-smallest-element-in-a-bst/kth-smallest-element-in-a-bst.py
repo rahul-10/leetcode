@@ -5,23 +5,28 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def __init__(self):
-        self.index = 0
+    
 
-    def kthSmallestUtil(self, root: Optional[TreeNode], k: int) -> int:
+    def kthSmallestUtil(self, root: Optional[TreeNode], k: int) -> Optional[int]:
         if not root:
             return None
+        
         left = self.kthSmallestUtil(root.left, k)
-        if isinstance(left, int):
+
+        if left is not None:
             return left
-        self.index += 1
-        if self.index == k:
+        
+        # print('self.count: ', self.count, 'root: ', root.val)
+        self.count = self.count+1
+
+        if self.count == k:
             return root.val
 
         right = self.kthSmallestUtil(root.right, k)
-        if isinstance(right, int):
-            return right
+
+        return right
 
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        self.count = 0
         return self.kthSmallestUtil(root, k)
         
