@@ -26,7 +26,7 @@ class Solution:
                 while window_size - max_freq > k:
                     hash_map[s[start]] = hash_map[s[start]] - 1
                     start += 1
-                    max_freq = self.get_max_freq(hash_map)
+                    # max_freq = self.get_max_freq(hash_map)
                     window_size = idx - start +1 
 
         return longest_len    
