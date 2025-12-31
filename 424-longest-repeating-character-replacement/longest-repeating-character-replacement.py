@@ -1,36 +1,32 @@
-
 class Solution:
-    def find_min(self, map:dict) -> int:   
-        max_value = 0
-        key_wiyh_hightest_count = None
-        total_count = 0
-        for key, value in map.items():
-            if value == 0:
-                continue
-            total_count = total_count + value
-            if max_value < value:
-                max_value = value
-                key_wiyh_hightest_count = key
-       
-        return  total_count - map[key_wiyh_hightest_count]
+    def get_max_freq(self, hash_map: dict) -> int:
+        freq = 0
 
-    def characterReplacement(self, s: str, k: int) -> int:
-        max_count = 1
-        replaced = 0
-        map = {}
-        starting_index = 0
-        map[s[0]] = 1
-        for index in range(1, len(s)):
-            map[s[index]] = map.get(s[index], 0) + 1
-            while self.find_min(map) > k:
-                map[s[starting_index]] = map.get(s[starting_index], 0) - 1
-                starting_index = starting_index + 1
-                
-            if max_count < index - starting_index + 1:
-                max_count = index - starting_index + 1
-                
-
-        return max_count
-
-            
+        for val in hash_map.values():
+            freq = max(freq, val)
         
+        return freq
+        
+    def characterReplacement(self, s: str, k: int) -> int:
+
+        longest_len = 0
+        start = 0
+        max_freq = 0
+        hash_map = {}
+
+        for idx, val in enumerate(s): 
+            window_size = idx - start +1 
+            
+            hash_map[val] = hash_map.get(val, 0) + 1
+            max_freq = max(max_freq, hash_map[val])
+
+            if window_size - max_freq <= k: 
+                longest_len = max(longest_len, window_size)
+            else:
+                while window_size - max_freq > k:
+                    hash_map[s[start]] = hash_map[s[start]] - 1
+                    start += 1
+                    max_freq = self.get_max_freq(hash_map)
+                    window_size = idx - start +1 
+
+        return longest_len    
