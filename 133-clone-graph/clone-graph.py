@@ -13,21 +13,15 @@ class Solution:
         if not node:
             return None
 
-        queue = deque()
-        queue.append(node)
-        node2 = Node(node.val)
-        hash_map = {node: node2}
+        queue = deque([node])
+        hash_map = {node: Node(node.val)}
 
         while queue:
             temp = queue.popleft()
-            
             for neighbor in temp.neighbors:
                 if neighbor not in hash_map:
-                    new = Node(neighbor.val)
-                    hash_map[neighbor] = new
-                    hash_map[temp].neighbors.append(new)
+                    hash_map[neighbor] = Node(neighbor.val)
                     queue.append(neighbor)
-                else:
-                    hash_map[temp].neighbors.append(hash_map[neighbor])
+                hash_map[temp].neighbors.append(hash_map[neighbor])
                 
-        return node2
+        return hash_map[node]
