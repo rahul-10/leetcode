@@ -1,22 +1,41 @@
 class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
+    def can_append(self, x, y, z, result_map) -> bool:
+        nums = [x, y, z]
         nums.sort()
         
-        res = []
-        for idx, value in enumerate(nums):
-            if idx > 0 and value == nums[idx-1]:
-                continue
-            left = idx+1
-            right = len(nums)-1
+        if result_map.get(nums[0], None) is None:
+            result_map[nums[0]] = {}
 
-            while left < right:
-                if nums[left] + nums[right] + value == 0:
-                    res.append([value, nums[left], nums[right]])
-                    right -= 1
-                    while right > left and nums[right] == nums[right+1] :
-                        right -= 1
-                elif nums[left] + nums[right] + value > 0:
-                    right -= 1
-                else:
-                    left += 1
-        return res        
+        if result_map.get(nums[0]).get(nums[1]) == nums[2]:
+            return False
+
+        
+        result_map[nums[0]][nums[1]] = nums[2]
+        return True
+        
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        result = []
+        result_map = {}
+        nums.sort()
+        is_processed = {}
+        for i in range(len(nums)):
+            if is_processed.get(i, None) is None:
+                is_processed[i]= {} 
+
+            if i >= 1 and nums[i] == nums[i-1]:
+                continue
+            hash_map = {}
+            for j in range(i+1, len(nums)):
+                if is_processed[i].get(j, None) == True:
+                    continue
+                k = -1 * (nums[i] + nums[j]) 
+                if k in hash_map and self.can_append(nums[i], nums[j], k, result_map):
+                    is_processed[i][j] = True
+                    result.append([nums[i], nums[j], k])
+                
+                hash_map[nums[j]] = j
+        
+        return result
+
+
+        
