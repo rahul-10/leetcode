@@ -1,32 +1,27 @@
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        if not intervals:
-            return [newInterval]
-
-        res:List[List[int]]  = []
-        i =0
-        new_interval_added = False
+        result = []
+        i = 0
         while i < len(intervals):
-            if intervals[i][1] < newInterval[0] or new_interval_added:
-                res.append(intervals[i])
-                i = i+1
+            # Just add current interval if new interval is out its range
+            if newInterval[0] > intervals[i][1]:
+                result.append(intervals[i])
+                i += 1
                 continue
-            if intervals[i][0] > newInterval[1]:
-                res.append(newInterval)
-                new_interval_added = True
-                continue
-            start_value = min(intervals[i][0], newInterval[0])
-            end_value = max(intervals[i][1], newInterval[1])
-            j = i+1
-            while j<len(intervals) and end_value >= intervals[j][0]:
-                end_value = max(end_value, intervals[j][1])
-                j = j+1
+            
+            if newInterval[1] < intervals[i][0]:
+                result.append(newInterval)
+            else:
+                min_val = min(newInterval[0],  intervals[i][0])
+                max_val = max(newInterval[1],  intervals[i][1])
+                i += 1
+                while i < len(intervals) and intervals[i][0] <= max_val:
+                    max_val = max(max_val, intervals[i][1])
+                    i += 1
                 
-            res.append([start_value, end_value])
-            i = j
-            new_interval_added = True
-        if not new_interval_added:
-            res.append(newInterval)
-        return res
-
+                result.append([min_val, max_val])
+            result.extend(intervals[i:])
+            return result
         
+        result.append(newInterval)
+        return result
