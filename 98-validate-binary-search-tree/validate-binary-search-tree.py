@@ -7,21 +7,36 @@
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
 
-        max_till_now = float("-inf")
-        def inOrderTraversal(root: Optional[TreeNode]) -> Optional[int]:
-            nonlocal max_till_now
+        # max_till_now = float("-inf")
+        # def inOrderTraversal(root: Optional[TreeNode]) -> bool:
+        #     nonlocal max_till_now
 
-            if not root:
+        #     if not root:
+        #         return True
+            
+        #     left = inOrderTraversal(root.left)
+        #     if left is False or max_till_now >= root.val:
+        #         return False
+            
+        #     max_till_now = root.val
+
+        #     right = inOrderTraversal(root.right)
+            
+        #     return False if right is False else True
+
+        # return inOrderTraversal(root)
+
+        def dfs(node, low, high):
+            if not node:
                 return True
-            
-            left = inOrderTraversal(root.left)
-            if left is False or max_till_now >= root.val:
+
+            # current node must be strictly between bounds
+            if not (low < node.val < high):
                 return False
-            
-            max_till_now = root.val
 
-            right = inOrderTraversal(root.right)
-            
-            return False if right is False else True
+            return (
+                dfs(node.left, low, node.val) and
+                dfs(node.right, node.val, high)
+            )
 
-        return inOrderTraversal(root)
+        return dfs(root, float("-inf"), float("inf"))
