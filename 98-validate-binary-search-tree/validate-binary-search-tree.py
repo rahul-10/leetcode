@@ -4,24 +4,27 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
-MIN_NUM = -(2**31) - 1
-MAX_NUM = 2**31
-
 class Solution:
-
-    def isValidBSTUtil(self, root: Optional[TreeNode], min_num: int, max_num: int) -> bool:
-
-        if not root:
-            return True
-        if min_num >= root.val or root.val >= max_num:
-            return False
-
-        return self.isValidBSTUtil(root.left, min_num, root.val) and self.isValidBSTUtil(root.right, root.val, max_num)  
-
-
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        # print('MIN_NUM: ---> ', MIN_NUM, ', MAX_NUM: ', MAX_NUM)
-        return  self.isValidBSTUtil(root, MIN_NUM, MAX_NUM)
- 
-        
+
+        max_till_now = float("-inf")
+        if max_till_now >= root.val:
+                return False
+        # print('1. max_till_now: ', max_till_now)
+        def inOrderTraversal(root: Optional[TreeNode]) -> Optional[int]:
+            nonlocal max_till_now
+
+            if not root:
+                return None
+            
+            left = inOrderTraversal(root.left)
+            if left == False or max_till_now >= root.val:
+                return False
+            
+            max_till_now = root.val
+
+            right = inOrderTraversal(root.right)
+            
+            return False if right == False else True
+
+        return inOrderTraversal(root)
