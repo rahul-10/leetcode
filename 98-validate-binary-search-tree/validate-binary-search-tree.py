@@ -8,8 +8,6 @@ class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
 
         max_till_now = float("-inf")
-        if max_till_now >= root.val:
-                return False
         # print('1. max_till_now: ', max_till_now)
         def inOrderTraversal(root: Optional[TreeNode]) -> Optional[int]:
             nonlocal max_till_now
