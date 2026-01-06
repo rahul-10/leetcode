@@ -1,53 +1,36 @@
 class Solution:
-
-    def find_sum(self, height, left, right):
-        min_height = min(height[left], height[right])
-        total_sum = 0
-        for index in range(left+1, right):
-            total_sum += 0 if (min_height - height[index]) <=0 else (min_height - height[index])
-        
-        return total_sum
-
-    def update_local_maxima(self, height, local_maxima, index):
-        while len(local_maxima) >=2 and height[index] >= height[local_maxima[-1]] and height[local_maxima[-2]] >= height[local_maxima[-1]]:
-            local_maxima.pop()
-        local_maxima.append(index)  
-        # if len(local_maxima) >= 2 and height[index] >= height[local_maxima[-1]]:
-               
-        # else:
-        #     local_maxima.append(index)
-
-    def find_local_maxima(self, height):
-        local_maxima = []
-        local_maxima.append(0)
-
-        for index in range(1, len(height)-1):
-            if height[index] >= height[index-1] and height[index] >= height[index+1]:
-                self.update_local_maxima(height, local_maxima, index)
-
-        # if height[len(height)-1] > height[len(height)-2]:
-        self.update_local_maxima(height, local_maxima, len(height)-1)
-        return local_maxima
+    def append_in_maxima(self, maxima: list[int], height: list[int], index: int) -> None:
+        while len(maxima) >= 2 and height[maxima[-2]] >= height[maxima[-1]] <= height[index] :
+            maxima.pop()
+        maxima.append(index)
 
     def trap(self, height: List[int]) -> int:
-        n = len(height)
-        if n <=2: 
+        if len(height) <=2:
             return 0
-        
-        local_maxima = self.find_local_maxima(height)
-        print('local_maxima: ', local_maxima)
-        if len(local_maxima) < 2:
-            return 0
-        
-        total_water = 0
-       
-        left_index = local_maxima[0]
-        for index in range(1, len(local_maxima)):
-            right_index = local_maxima[index]
-            total_water += self.find_sum(height, left_index, right_index)
-            left_index = right_index
 
-        return total_water
+        maxima = []
+        if height[0] >= height[1]:
+            maxima.append(0)
+        
+        for i in range(1, len(height)-1):
+            if height[i-1] <= height[i] >= height[i+1]:
+                self.append_in_maxima(maxima, height, i)
+                continue
+        
+        if height[-1] >= height[-2]:
+            self.append_in_maxima(maxima, height, len(height)-1)
+        
+        print('maxima: ', maxima)
+        total=0
+        for i in range(1, len(maxima)):
+            left , right = maxima[i-1], maxima[i]
+            min_val = min(height[left], height[right])
+            for j in range(left+1, right):
+                total += max(min_val - height[j], 0)
+        
+        return total
+            
 
         
+
         
