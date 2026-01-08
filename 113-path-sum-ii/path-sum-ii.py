@@ -16,11 +16,10 @@ class Solution:
             if not root.left and not root.right:
                 if root.val + curr_sum == targetSum:
                     result.append(path.copy())
-                path.pop()
-                return 
-            curr_sum += root.val
-            dfs(root.left, curr_sum)
-            dfs(root.right, curr_sum)
+            else:
+                curr_sum += root.val
+                dfs(root.left, curr_sum)
+                dfs(root.right, curr_sum)
             path.pop()
         
         dfs(root, 0)
